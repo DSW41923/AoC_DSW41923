@@ -1,1 +1,2 @@
-# Advent-of-Code-of-DSW41923
+# AoCode-DSW41923
+##Current progress: Day 4
