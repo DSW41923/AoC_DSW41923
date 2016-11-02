@@ -1,2 +1,2 @@
 # AoCode-DSW41923
-##Current progress: Day 4
+##Current progress: Day 7
