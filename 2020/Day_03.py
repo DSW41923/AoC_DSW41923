@@ -17,14 +17,14 @@ def main(argv):
             sys.exit()
 
     file_input = open('Input_03.txt', 'r')
-    map_strings = map(lambda s: s.replace('\r\n', ''), file_input.readlines())
+    map_strings = list(map(lambda s: s.replace('\n', ''), file_input.readlines()))
     file_input.close()
-    def count_tree(map_string, right, down):
-        map_x_maximum = len(map[0])
+    def count_tree(map_data, right, down):
+        map_x_maximum = len(map_data[0])
         tree_encounter_count = 0
         x, y = 0, 0
-        while y < len(map_string):
-            if map_string[y][x] == '#':
+        while y < len(map_data):
+            if map_data[y][x] == '#':
                 tree_encounter_count += 1
             x = (x + right) % map_x_maximum
             y += down
