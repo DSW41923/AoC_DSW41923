@@ -43,6 +43,5 @@ def main(argv):
     print("{} password entries are valid!".format(new_valid_entries_count))
 
 
-
 if __name__ == "__main__":
     main(sys.argv[1:])

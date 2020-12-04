@@ -19,12 +19,12 @@ def main(argv):
     file_input = open('Input_03.txt', 'r')
     map_strings = map(lambda s: s.replace('\r\n', ''), file_input.readlines())
     file_input.close()
-    def count_tree(map, right, down):
+    def count_tree(map_string, right, down):
         map_x_maximum = len(map[0])
         tree_encounter_count = 0
         x, y = 0, 0
-        while y < len(map_strings):
-            if map_strings[y][x] == '#':
+        while y < len(map_string):
+            if map_string[y][x] == '#':
                 tree_encounter_count += 1
             x = (x + right) % map_x_maximum
             y += down
