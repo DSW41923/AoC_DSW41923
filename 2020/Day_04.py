@@ -13,7 +13,7 @@ def main(argv):
 
     for opt, arg in opts:
         if opt in ('-h', "--help"):
-            print('Usage: python3 Day_01.py [-h | --help]')
+            print('Usage: python3 Day_04.py [-h | --help]')
             print('Advent of Code 2020 Day 04')
             sys.exit()
 
