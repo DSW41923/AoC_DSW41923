@@ -47,6 +47,5 @@ def main(argv):
     print(total_everyone_yes_count)
 
 
-
 if __name__ == "__main__":
     main(sys.argv[1:])
