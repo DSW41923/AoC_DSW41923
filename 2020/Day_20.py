@@ -107,12 +107,12 @@ def main(argv):
     visited_tiles_id = []
     arranging_tiles(corner_tile, visited_tiles_id)
 
-    full_image_tiles = [[None for _ in range(12)] for _ in range(12)]
+    full_image_tiles = [[] for _ in range(12)]
     row_starting_tile = corner_tile
     for row in range(12):
         current_tile = row_starting_tile
         for column in range(12):
-            full_image_tiles[row][column] = current_tile
+            full_image_tiles[row].append(current_tile)
             current_tile = current_tile.adjacent_tiles['right']
         row_starting_tile = row_starting_tile.adjacent_tiles['down']
 
@@ -130,7 +130,7 @@ def main(argv):
     for p in range(8):
         for row in range(len(full_image_data) - 2):
             for column in range(len(full_image_data[0]) - 19):
-                if full_image_tile.data[row][column:column + 18] == '#':
+                if full_image_tile.data[row][column + 18] == '#':
                     further_checkingn_location = [
                         full_image_tile.data[row + 1][column],
                         full_image_tile.data[row + 1][column + 5],
@@ -149,7 +149,6 @@ def main(argv):
                             full_image_tile.data[row + 2][column + 13],
                             full_image_tile.data[row + 2][column + 16]]
                         if all(c == '#' for c in last_checkingn_location):
-                            print("Found 1!")
                             sea_monster_count += 1
         if sea_monster_count > 0:
             total_sharp_count = sum(r.count('#') for r in full_image_tile.data)
