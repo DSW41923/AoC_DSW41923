@@ -2,6 +2,7 @@ import argparse
 import copy
 import re
 
+
 def part_1(instructions):
     bots = {}
     get_value = True
@@ -93,6 +94,7 @@ def part_2(instructions):
             running_instructions = new_running_instructions
 
     print("The multiplication is {}".format(output_bins['0'][0] * output_bins['1'][0] * output_bins['2'][0]))
+
 
 def main():
     parser = argparse.ArgumentParser()
