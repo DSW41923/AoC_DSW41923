@@ -18,6 +18,7 @@ def part_1(input_string):
             tls_supported_ip_count += 1
     print("There are {} IPs in the puzzle input support TLS.".format(tls_supported_ip_count))
 
+
 def part_2(input_string):
     ssl_supported_ip_count = 0
     for ip in input_string:
