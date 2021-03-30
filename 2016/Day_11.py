@@ -2,9 +2,6 @@ import argparse
 import copy
 import itertools
 import re
-import time
-
-from multiprocessing import Process, Manager
 
 
 class Arrangement(object):
@@ -63,7 +60,10 @@ class Arrangement(object):
 
 def random_move_elments(history, next_arrangements, arrangement, moving_elements_count):
     for moving_elements in itertools.combinations(arrangement.get_current_floor_elements(), moving_elements_count):
-        # Only move if moving two generators, two microchips, or a generator and a microchip with same name
+        # Only move if moving
+        # two generators, two microchips (len=2+1=3)
+        # one generator and one microchip with same name (len=1+2=3)
+        # or only one generator or microchip (len=1+1=2)
         if len(set([c.split('_')[0] for c in moving_elements] + [c.split('_')[1] for c in moving_elements])) < 4:
             for direction in [-1, 1]:
                 new_arrangement = copy.deepcopy(arrangement)
@@ -77,6 +77,7 @@ def random_move_elments(history, next_arrangements, arrangement, moving_elements
                     if is_new_arrangement:
                         next_arrangements.append(new_arrangement)
 
+
 def is_valid_arrangement(arrangement):
     for floor in arrangement.floor_arrangement:
         microchip_names = [c.split('_')[0] for c in arrangement.floor_arrangement[floor] if c.endswith('microchip')]
@@ -85,6 +86,7 @@ def is_valid_arrangement(arrangement):
             if generator_names and microchip_name not in generator_names:
                 return False
     return True
+
 
 def count_steps_required(initial_arrangement):
     steps_count = 0
@@ -104,6 +106,7 @@ def count_steps_required(initial_arrangement):
                     arrangement.floor_arrangement['2'] or
                     arrangement.floor_arrangement['3']):
                 return steps_count
+
 
 def part_1(input_string):
     initial_arrangement = Arrangement(input_string)
