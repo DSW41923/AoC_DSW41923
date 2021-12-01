@@ -7,7 +7,7 @@ def part_1(door_id):
     password = ''
     while len(password) < 8:
         trial_string = door_id + str(index)
-        m = hashlib.md5()
+        m = hashlib.new('md5')
         m.update(trial_string.encode())
         hash_result = m.hexdigest()
         if hash_result.startswith('00000'):
@@ -21,7 +21,7 @@ def part_2(door_id):
     password = [''] * 8
     while any([p == '' for p in password]):
         trial_string = door_id + str(index)
-        m = hashlib.md5()
+        m = hashlib.new('md5')
         m.update(trial_string.encode())
         hash_result = m.hexdigest()
         if hash_result.startswith('00000'):
