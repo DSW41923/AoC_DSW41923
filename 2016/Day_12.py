@@ -15,7 +15,10 @@ def do_instruction(instruction, registers):
         try:
             registers[opperands[1]] = registers[opperands[0]]
         except KeyError:
-            registers[opperands[1]] = int(opperands[0])
+            try:
+                registers[opperands[1]] = int(opperands[0])
+            except KeyError or ValueError:
+                pass
 
         registers['i'] += 1
         return
@@ -32,12 +35,17 @@ def do_instruction(instruction, registers):
 
     if operation == 'jnz':
         try:
+            jump_steps = int(opperands[1])
+        except ValueError:
+            jump_steps = registers[opperands[1]]
+
+        try:
             if registers[opperands[0]] != 0:
-                registers['i'] += int(opperands[1])
+                registers['i'] += jump_steps
                 return
         except KeyError:
             if int(opperands[0]) != 0:
-                registers['i'] += int(opperands[1])
+                registers['i'] += jump_steps
                 return
 
         registers['i'] += 1
