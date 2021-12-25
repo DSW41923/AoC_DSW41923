@@ -1,6 +1,6 @@
 # Advent of Code-DSW41923
 ## Current progress
-- [ ] 2021: In progress, not yet pushed
+- [x] 2021: Completed
 - [x] 2020: Completed
 - [x] 2016: Completed
 - [x] 2015: Completed
