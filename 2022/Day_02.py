@@ -2,7 +2,7 @@ import argparse
 
 
 def part_1(input_string):
-    rounds = input_string.split("\n")[:-1]
+    rounds = input_string.split("\n")
     score = 0
     for foe, me in map(lambda x: x.split(" "), rounds):
         if me == 'X':
@@ -45,7 +45,7 @@ def part_1(input_string):
 
 def part_2(input_string):
     
-    rounds = input_string.split("\n")[:-1]
+    rounds = input_string.split("\n")
     score = 0
     for foe, me in map(lambda x: x.split(" "), rounds):
         if me == 'X':
