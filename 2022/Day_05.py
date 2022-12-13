@@ -2,14 +2,19 @@ import argparse
 import re
 
 
-def part_1(input_string):
-    lines = input_string.split('\n')
-    stacks_count = len([l for l in list(lines[8]) if l != ' '])
+def parse_crates_stacks(stacks_input):
+    stacks_count = len([l for l in list(stacks_input[-1]) if l != ' '])
     crates_stacks = {i+1: [] for i in range(stacks_count)}
-    for l in lines[:8]:
+    for l in stacks_input:
         for c, crate in enumerate(l[1::4]):
             if crate != ' ':
                 crates_stacks[c+1].insert(0, crate)
+    return crates_stacks
+
+
+def part_1(input_string):
+    lines = input_string.split('\n')
+    crates_stacks = parse_crates_stacks(lines[:9])
     procedure_steps = lines[10:]
     for procedure_step in procedure_steps:
         moving_count, src, des = re.match(r'move (\d+) from (\d+) to (\d+)', procedure_step).groups()
@@ -20,12 +25,7 @@ def part_1(input_string):
 
 def part_2(input_string):
     lines = input_string.split('\n')
-    stacks_count = len([l for l in list(lines[8]) if l != ' '])
-    crates_stacks = {i+1: [] for i in range(stacks_count)}
-    for l in lines[:8]:
-        for c, crate in enumerate(l[1::4]):
-            if crate != ' ':
-                crates_stacks[c+1].insert(0, crate)
+    crates_stacks = parse_crates_stacks(lines[:9])
     procedure_steps = lines[10:]
     for procedure_step in procedure_steps:
         moving_count, src, des = re.findall(r'move (\d+) from (\d+) to (\d+)', procedure_step)[0]

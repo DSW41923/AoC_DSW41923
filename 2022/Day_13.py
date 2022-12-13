@@ -29,7 +29,7 @@ def is_right_order(packet_l, packet_r):
         return 1
     
     # Since we looped through packet_l 
-    # and return when index out of bound of packet_r
+    # and return when index out of the bound of packet_r
     # This if never hit
     if len(packet_r) < len(packet_l):
         print("REALLY?")

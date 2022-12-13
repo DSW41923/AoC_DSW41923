@@ -1,8 +1,7 @@
 import argparse
 
 
-def part_1(input_string):
-    terminal_outputs = input_string.split('\n')
+def parse_directories(terminal_outputs):
     directories = {}
     currrent_path = ''
     for output in terminal_outputs:
@@ -42,66 +41,30 @@ def part_1(input_string):
             'sub': []
         }})
 
-    desired_total_size = 0
     while any([d['size'] == 0 for d in directories.values()]):
         for d in directories.values():
             if d['size'] == 0: # means its size has not yet calculated
                 if all(directories[dsub]['size'] != 0 for dsub in d['sub'] if len(d['sub']) != 0):
                     # Only sum up if all child elements' size calculated
                     d['size'] = sum(directories[dsub]['size'] for dsub in d['sub'])
-                    if (d['size']) <= 100000:
-                        desired_total_size += d['size']
             continue
+
+    return directories
+
+
+def part_1(input_string):
+    terminal_outputs = input_string.split('\n')
+    directories = parse_directories(terminal_outputs)
+    desired_total_size = 0
+    for dir_name, dir_content in directories.items():
+        if (dir_content['size']) <= 100000 and len(dir_content['sub']) != 0:
+            desired_total_size += dir_content['size']
     print(desired_total_size)
 
 
 def part_2(input_string):
     terminal_outputs = input_string.split('\n')
-    directories = {}
-    currrent_path = ''
-    for output in terminal_outputs:
-        if output.startswith("$ cd "):
-            next_directory = output.split(' ')[-1]
-            if next_directory == '..':
-                currrent_path = '/'.join(currrent_path.split('/')[:-2]) + '/'
-                continue
-
-            if next_directory == '/':
-                currrent_path = '/'
-                continue
-            
-            if currrent_path == '/':
-                currrent_path += next_directory + '/'
-                continue
-
-            currrent_path += next_directory + '/'
-            continue
-
-        if output.startswith("$ ls"):
-            directories.update({currrent_path: {
-                'size': 0,
-                'sub': []
-            }})
-            continue
-
-        if output.startswith("dir "):
-            new_dir = output.split(' ')[-1]
-            directories[currrent_path]['sub'].append(currrent_path + new_dir + '/')
-            continue
-            
-        size, name = output.split(' ')
-        directories[currrent_path]['sub'].append(currrent_path + name)
-        directories.update({currrent_path + name: {
-            'size': int(size),
-            'sub': []
-        }})
-
-    while any([d['size'] == 0 for d in directories.values()]):
-        for dir_name, d in directories.items():
-            if d['size'] == 0 and all(directories[dsub]['size'] != 0 for dsub in d['sub'] if len(d['sub']) != 0):
-                d['size'] = sum(directories[dsub]['size'] for dsub in d['sub'])
-            continue
-    
+    directories = parse_directories(terminal_outputs)
     space_total = 70000000
     space_requirement = 30000000
     space_used = directories['/']['size']

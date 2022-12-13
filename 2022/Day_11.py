@@ -2,7 +2,7 @@ import argparse
 import re
 
 
-def part_1(input_string):
+def parse_monkey_data(input_string):
     monkeys = {}
     for monkey_id, items, operation, test, true_des, false_des in re.findall(r'Monkey (\d+):\n[\w ]+items: ([\d ,]+)\n +Operation: new = ([old *+\-\d]+)\n +Test:[\w ]+by (\d+)\n[\w ]+true:[\w ]+(\d+)\n[\w ]+false:[\w ]+(\d+)', input_string):
         monkeys.update({
@@ -13,6 +13,11 @@ def part_1(input_string):
             'true_des': true_des,
             'false_des': false_des,
             'inspection_count': 0}})
+    return monkeys
+
+
+def part_1(input_string):
+    monkeys = parse_monkey_data(input_string)
     for _ in range(20):
         for i in range(len(monkeys)):
             inspecting = str(i)
@@ -31,16 +36,7 @@ def part_1(input_string):
 
 
 def part_2(input_string):
-    monkeys = {}
-    for monkey_id, items, operation, test, true_des, false_des in re.findall(r'Monkey (\d+):\n[\w ]+items: ([\d ,]+)\n +Operation: new = ([old *+\-\d]+)\n +Test:[\w ]+by (\d+)\n[\w ]+true:[\w ]+(\d+)\n[\w ]+false:[\w ]+(\d+)', input_string):
-        monkeys.update({
-            monkey_id: {
-            'items': list(map(int, items.split(', '))),
-            'operation': operation,
-            'test': 'new%' + test,
-            'true_des': true_des,
-            'false_des': false_des,
-            'inspection_count': 0}})
+    monkeys = parse_monkey_data(input_string)
     ultimate_test = 1
     for test in [m['test'] for m in monkeys.values()]:
         ultimate_test *= int(test.split('%')[-1])
