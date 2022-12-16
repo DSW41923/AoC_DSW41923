@@ -1,5 +1,9 @@
 import argparse
 import re
+import time
+
+from collections import Counter
+from itertools import product
 
 
 def part_1(input_string):
@@ -24,96 +28,179 @@ def part_1(input_string):
     print(list(arrangement.values()).count('#'))
 
 
-def part_2(input_string):
+def part_2(input_string, method=4):
     sensor_reports = []
     sensors_n_beacons = []
     range_min, range_max = 0, 4000000
-    
+
     for found in re.findall(r'Sensor[\w ]+x=(\d+), y=([-\d]+): closest beacon[\w ]+x=(\d+), y=([-\d]+)', input_string):
         sensor_x, sensor_y, beacon_x, beacon_y = tuple(map(int, found))
         sensor_reports.append(((sensor_x, sensor_y), abs(sensor_x - beacon_x) + abs(sensor_y - beacon_y)))
         sensors_n_beacons.extend([(sensor_x, sensor_y), (beacon_x, beacon_y)])
-    
+
     sensors_n_beacons = list(set(sensors_n_beacons))
 
     # Version 1
     # Got correct answer after compared with Version 2
-    # Though fast, it could output wrong answer under specific cases
-    # That's why it got commented out
-    # sensor_reports.sort(key=lambda s: s[0][0])
-    # x, y = 0, 0
-    # while x < range_max and y < range_max:
-    #     if (x, y) in sensors_n_beacons:
-    #         x += 1
-    #         continue
-    #     is_beacon = False
-    #     for (sensor_x, sensor_y), reported_dist in sensor_reports:
-    #         x_dist = abs(sensor_x - x)
-    #         y_dist = abs(sensor_y - y)
-    #         if x_dist + y_dist > reported_dist:
-    #             is_beacon = True
-    #             continue
-    #         x = sensor_x + reported_dist - y_dist + 1
-    #         is_beacon = False
-    #         if x > range_max:
-    #             break
-    #     if is_beacon:
-    #         print(x * range_max + y)
-    #         return
-    #     if x > range_max:
-    #         x = 0
-    #     y += 1
-    
-    # Version 2
-    for (sensor_x, sensor_y), reported_dist in sensor_reports:
-        intersections = [
-            (sensor_x - reported_dist - 1, sensor_y),
-            (sensor_x, sensor_y + reported_dist + 1),
-            (sensor_x + reported_dist + 1, sensor_y),
-            (sensor_x, sensor_y - reported_dist - 1)
-        ]
-        for i, intersection in enumerate(intersections):
-            x, y = intersection
-            if i == 0:
-                while x < range_min or y < range_min:
-                    x += 1
-                    y += 1
-            if i == 1:
-                while x < range_min or y > range_max:
-                    x += 1
-                    y -= 1
-            if i == 2:
-                while x > range_max or y > range_max:
-                    x -= 1
-                    y -= 1
-            if i == 3:
-                while x > range_max or y < range_min:
-                    x -= 1
-                    y += 1
-            
-            if not(range_min <= x <= range_max and range_min <= y <= range_max):
+    # Actually works
+    # Performance: 8.6 seconds
+    if method == 1:
+        sensor_reports.sort(key=lambda s: s[0][0])
+        x, y = 0, 0
+        while x < range_max and y < range_max:
+            if (x, y) in sensors_n_beacons:
+                x += 1
                 continue
-            
-            while (x, y) != intersections[(i + 1) % 4]:
-                if all([abs(sensor_x - x) + abs(sensor_y - y) > dist for (sensor_x, sensor_y), dist in sensor_reports]):
-                    print(x * range_max + y)
-                    return
+            is_beacon = False
+            for (sensor_x, sensor_y), reported_dist in sensor_reports:
+                x_dist = abs(sensor_x - x)
+                y_dist = abs(sensor_y - y)
+                if x_dist + y_dist > reported_dist:
+                    is_beacon = True
+                    continue
+                x = sensor_x + reported_dist - y_dist + 1
+                is_beacon = False
+                if x > range_max:
+                    break
+            if is_beacon:
+                print(x * range_max + y)
+                return
+            if x > range_max:
+                x = 0
+            y += 1
 
+    # Version 2
+    # Performance: 32 seconds
+    if method == 2:
+        for (sensor_x, sensor_y), reported_dist in sensor_reports:
+            outer_endpoints = [
+                (sensor_x - reported_dist - 1, sensor_y),
+                (sensor_x, sensor_y + reported_dist + 1),
+                (sensor_x + reported_dist + 1, sensor_y),
+                (sensor_x, sensor_y - reported_dist - 1)
+            ]
+            for i, endpoint in enumerate(outer_endpoints):
+                x, y = endpoint
                 if i == 0:
-                    x += 1
-                    y += 1
+                    while x < range_min or y < range_min:
+                        x += 1
+                        y += 1
                 if i == 1:
-                    x += 1
-                    y -= 1
+                    while x < range_min or y > range_max:
+                        x += 1
+                        y -= 1
                 if i == 2:
-                    x -= 1
-                    y -= 1
+                    while x > range_max or y > range_max:
+                        x -= 1
+                        y -= 1
                 if i == 3:
-                    x -= 1
-                    y += 1
+                    while x > range_max or y < range_min:
+                        x -= 1
+                        y += 1
 
                 if not(range_min <= x <= range_max and range_min <= y <= range_max):
-                    break
+                    continue
+
+                while (x, y) != outer_endpoints[(i + 1) % 4]:
+                    if all([abs(sensor_x - x) + abs(sensor_y - y) > dist for (sensor_x, sensor_y), dist in sensor_reports]):
+                        print(x * range_max + y)
+                        return
+
+                    if i == 0:
+                        x += 1
+                        y += 1
+                    if i == 1:
+                        x += 1
+                        y -= 1
+                    if i == 2:
+                        x -= 1
+                        y -= 1
+                    if i == 3:
+                        x -= 1
+                        y += 1
+
+                    if not(range_min <= x <= range_max and range_min <= y <= range_max):
+                        break
+
+    # Version 3
+    # Performance: 26 seconds
+    if method == 3:
+        candidates = []
+        for (sensor_x, sensor_y), reported_dist in sensor_reports:
+            outer_endpoints = [
+                (sensor_x - reported_dist - 1, sensor_y),
+                (sensor_x, sensor_y + reported_dist + 1),
+                (sensor_x + reported_dist + 1, sensor_y),
+                (sensor_x, sensor_y - reported_dist - 1)
+            ]
+            for x, y in zip(
+                range(outer_endpoints[0][0], outer_endpoints[1][0] + 1),
+                range(outer_endpoints[0][1], outer_endpoints[1][1] + 1)):
+                if range_min <= x <= range_max and range_min <= y <= range_max:
+                    candidates.append((x, y))
+            for x, y in zip(
+                range(outer_endpoints[1][0], outer_endpoints[2][0] + 1),
+                range(outer_endpoints[1][1], outer_endpoints[2][1] - 1, -1)):
+                if range_min <= x <= range_max and range_min <= y <= range_max:
+                    candidates.append((x, y))
+            for x, y in zip(
+                range(outer_endpoints[2][0], outer_endpoints[3][0] - 1, -1),
+                range(outer_endpoints[2][1], outer_endpoints[3][1] - 1, -1)):
+                if range_min <= x <= range_max and range_min <= y <= range_max:
+                    candidates.append((x, y))
+            for x, y in zip(
+                range(outer_endpoints[3][0], outer_endpoints[0][0] - 1, -1),
+                range(outer_endpoints[3][1], outer_endpoints[0][1] + 1, 1)):
+                if range_min <= x <= range_max and range_min <= y <= range_max:
+                    candidates.append((x, y))
+
+        for x, y in candidates:
+            is_beacon = False
+            for (sensor_x, sensor_y), reported_dist in sensor_reports:
+                if abs(sensor_x - x) + abs(sensor_y - y) > reported_dist:
+                    is_beacon = True
+                    continue
+                is_beacon = False
+                break
+            if is_beacon:
+                print(range_max * x + y)
+                return
+
+    # Version 4
+    # Performance: 0.0007 seconds
+    if method == 4:
+        all_plus_lines = []
+        all_minus_lines = []
+        for (sensor_x, sensor_y), reported_dist in sensor_reports:
+            outer_endpoints = [
+                (sensor_x - reported_dist - 1, sensor_y),
+                (sensor_x, sensor_y + reported_dist + 1),
+                (sensor_x + reported_dist + 1, sensor_y),
+                (sensor_x, sensor_y - reported_dist - 1)
+            ]
+            for x, y in outer_endpoints:
+                if x + y not in all_plus_lines:
+                    all_plus_lines.append(x + y)
+                if x - y not in all_minus_lines:
+                    all_minus_lines.append(x - y)
+
+        for k_0, k_1 in product(all_plus_lines, all_minus_lines):
+            if (k_0 + k_1) % 2 or (k_0 - k_1) % 2:
+                continue
+            x, y = (k_0 + k_1) // 2, (k_0 - k_1) // 2
+            if not(range_min <= x <= range_max and range_min <= y <= range_max):
+                continue
+
+            is_beacon = False
+            for (sensor_x, sensor_y), reported_dist in sensor_reports:
+                if abs(sensor_x - x) + abs(sensor_y - y) > reported_dist:
+                    is_beacon = True
+                    continue
+                is_beacon = False
+                break
+            if is_beacon:
+                print(range_max * x + y)
+                return
 
 
 def main():
@@ -134,6 +221,25 @@ def main():
         part_1(input_string)
         part_2(input_string)
 
+        # start = time.perf_counter()
+        # part_2(input_string, 1)
+        # end = time.perf_counter()
+        # print("Method 1 執行時間：%f 秒" % (end - start))
+
+        # start = time.perf_counter()
+        # part_2(input_string, 2)
+        # end = time.perf_counter()
+        # print("Method 2 執行時間：%f 秒" % (end - start))
+
+        # start = time.perf_counter()
+        # part_2(input_string, 3)
+        # end = time.perf_counter()
+        # print("Method 3 執行時間：%f 秒" % (end - start))
+
+        # start = time.perf_counter()
+        # part_2(input_string, 4)
+        # end = time.perf_counter()
+        # print("Method 4 執行時間：%f 秒" % (end - start))
 
 if __name__ == "__main__":
     main()
