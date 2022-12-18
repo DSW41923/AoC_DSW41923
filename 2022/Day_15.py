@@ -219,7 +219,7 @@ def main():
         part_2(input_string)
     else:
         part_1(input_string)
-        part_2(input_string)
+        part_2(input_string, 4)
 
         # start = time.perf_counter()
         # part_2(input_string, 1)
