@@ -31,13 +31,101 @@ def get_next_tile_data(map_data, row, column, facing):
                 return map_data[i][0][column], i, column
 
 
+def get_next_tile_data_part_2(map_data, row, column, facing):
+    current_region = 2 * ((row - 1) // 50) + ((column - 1) // 50)
+    print(current_region)
+    if facing == 0:
+        if column < map_data[row][1][1]:
+            return map_data[row][0][column + 1], row, column + 1, facing
+        if current_region == 2:
+            new_row = 151 - row
+            new_column = map_data[new_row][1][1]
+            return map_data[new_row][0][new_column], new_row, new_column, 2
+        if current_region == 3:
+            new_row = 50
+            new_column = row + 50
+            return map_data[new_row][0][new_column], new_row, new_column, 3
+        if current_region == 5:
+            new_row = 151 - row
+            new_column = map_data[new_row][1][1]
+            return map_data[new_row][0][new_column], new_row, new_column, 2
+        if current_region == 6:
+            new_row = 150
+            new_column = row - 100
+            return map_data[new_row][0][new_column], new_row, new_column, 3
+        # In region 1, 4 move right directly into region 2, 5
+        raise ValueError
+
+    if facing == 1:
+        if row < len(map_data) - 1:
+            next_row = (row + 1) % len(map_data)
+            if map_data[next_row][1][0] <= column <= map_data[next_row][1][1]:
+                return map_data[next_row][0][column], next_row, column, facing
+        
+        if current_region == 2:
+            new_row = column - 50
+            new_column = map_data[new_row][1][1]
+            return map_data[new_row][0][new_column], new_row, new_column, 2
+        if current_region == 5:
+            new_row = column + 100
+            new_column = map_data[new_row][1][1]
+            return map_data[new_row][0][new_column], new_row, new_column, 2
+        if current_region == 6:
+            new_row = 1
+            new_column = column + 100
+            return map_data[new_row][0][new_column], new_row, new_column, 1
+        # In region 1, 3, 4 move down directly into region 3, 5, 6
+        raise ValueError
+
+    if facing == 2:
+        if column > map_data[row][1][0]:
+            return map_data[row][0][column - 1], row, column - 1, facing
+        if current_region == 1:
+            new_row = 151 - row
+            new_column = map_data[new_row][1][0]
+            return map_data[new_row][0][new_column], new_row, new_column, 0
+        if current_region == 3:
+            new_row = 101
+            new_column = row - 50
+            return map_data[new_row][0][new_column], new_row, new_column, 1
+        if current_region == 4:
+            new_row = 151 - row
+            new_column = map_data[new_row][1][0]
+            return map_data[new_row][0][new_column], new_row, new_column, 0
+        if current_region == 6:
+            new_row = 1
+            new_column = row - 100
+            return map_data[new_row][0][new_column], new_row, new_column, 1
+        # In region 2, 5 move left directly into region 1, 4
+        raise ValueError
+
+    if facing == 3:
+        if row > 1:
+            if map_data[row - 1][1][0] <= column <= map_data[row - 1][1][1]:
+                return map_data[row - 1][0][column], row - 1, column, facing
+        if current_region == 1:
+            new_row = column + 100
+            new_column = 1
+            return map_data[new_row][0][new_column], new_row, new_column, 0
+        if current_region == 2:
+            new_row = 200
+            new_column = column - 100
+            return map_data[new_row][0][new_column], new_row, new_column, 3
+        if current_region == 4:
+            new_row = column + 50
+            new_column = map_data[new_row][1][0]
+            return map_data[new_row][0][new_column], new_row, new_column, 0
+        # In region 3, 5, 6 move up directly into region 1, 3, 4
+        raise ValueError
+
+
 def part_1(input_string):
     input_data = input_string.split('\n')
     descriptions = re.findall(r'(\d+)([LR])?', input_data[-2])
-    map_data = list(map(list, input_data[:-3]))
-    max_map_len = max([len(m) for m in map_data])
-    map_row = [()]
-    for m_data in map_data:
+    map_input = list(map(list, input_data[:-3]))
+    max_map_len = max([len(m) for m in map_input])
+    map_data = [()]
+    for m_data in map_input:
         row = [' ']
         row_min, row_max = max_map_len, 0
         for i, m in enumerate(m_data):
@@ -46,13 +134,13 @@ def part_1(input_string):
                 row_min = min(row_min, i + 1)
                 row_max = max(row_max, i + 1)
         row.extend([' ' for _ in range(max_map_len - len(m_data))])
-        map_row.append((row, (row_min, row_max)))
-    pos = {'row': 1, 'column': map_row[1][1][0], 'facing': 0}
+        map_data.append((row, (row_min, row_max)))
+    pos = {'row': 1, 'column': map_data[1][1][0], 'facing': 0}
     for description in descriptions:
         steps, turn = description
         steps = int(steps)
         for _ in range(steps):
-            next_tile_data = get_next_tile_data(map_row, pos['row'], pos['column'], pos['facing'])
+            next_tile_data = get_next_tile_data(map_data, pos['row'], pos['column'], pos['facing'])
             if next_tile_data[0] == '#':
                 break
 
@@ -72,10 +160,11 @@ def part_1(input_string):
 def part_2(input_string):
     input_data = input_string.split('\n')
     descriptions = re.findall(r'(\d+)([LR])?', input_data[-2])
-    map_data = list(map(list, input_data[:-3]))
-    max_map_len = max([len(m) for m in map_data])
-    map_row = [()]
-    for mdi, m_data in enumerate(map_data):
+    map_input = list(map(list, input_data[:-3]))
+    max_map_len = max([len(m) for m in map_input])
+    map_data = [()]
+    # id of region is (row - 1) // 50 * 2 + (column - 1) // 50
+    for mdi, m_data in enumerate(map_input):
         row = [' ']
         row_min, row_max = max_map_len, 0
         for i, m in enumerate(m_data):
@@ -83,19 +172,15 @@ def part_2(input_string):
             if m != ' ':
                 row_min = min(row_min, i + 1)
                 row_max = max(row_max, i + 1)
-                print(mdi // 50, row_min, (i-row_min + 1) // 50)
         row.extend([' ' for _ in range(max_map_len - len(m_data))])
-        map_row.append((row, (row_min, row_max)))
-        if mdi % 50 == 0:
-            print(row_max - row_min + 1)
-    return
-    pos = {'row': 1, 'column': map_row[1][1][0], 'facing': 0}
+        map_data.append((row, (row_min, row_max)))
+    pos = {'row': 1, 'column': map_data[1][1][0], 'facing': 0}
     for description in descriptions:
         steps, turn = description
         steps = int(steps)
         print(description, pos)
         for _ in range(steps):
-            next_tile_data = get_next_tile_data(map_row, pos['row'], pos['column'], pos['facing'])
+            next_tile_data = get_next_tile_data_part_2(map_data, pos['row'], pos['column'], pos['facing'])
             print(next_tile_data)
             if next_tile_data[0] == '#':
                 break
@@ -103,7 +188,8 @@ def part_2(input_string):
             if next_tile_data[0] == '.':
                 pos.update({
                     'row': next_tile_data[1],
-                    'column': next_tile_data[2]})
+                    'column': next_tile_data[2],
+                    'facing': next_tile_data[3]})
 
         if turn == 'R':
             pos['facing'] += 1
