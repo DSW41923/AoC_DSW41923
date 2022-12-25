@@ -33,7 +33,7 @@ def get_next_tile_data(map_data, row, column, facing):
 
 def get_next_tile_data_part_2(map_data, row, column, facing):
     current_region = 2 * ((row - 1) // 50) + ((column - 1) // 50)
-    print(current_region)
+    # print(current_region)
     if facing == 0:
         if column < map_data[row][1][1]:
             return map_data[row][0][column + 1], row, column + 1, facing
@@ -178,10 +178,10 @@ def part_2(input_string):
     for description in descriptions:
         steps, turn = description
         steps = int(steps)
-        print(description, pos)
+        # print(description, pos)
         for _ in range(steps):
             next_tile_data = get_next_tile_data_part_2(map_data, pos['row'], pos['column'], pos['facing'])
-            print(next_tile_data)
+            # print(next_tile_data)
             if next_tile_data[0] == '#':
                 break
 
@@ -196,9 +196,9 @@ def part_2(input_string):
         elif turn == 'L':
             pos['facing'] -= 1
         pos['facing'] %= 4
-        print(pos)
-        print()
-    print(pos)
+        # print(pos)
+        # print()
+    # print(pos)
     print(1000 * pos['row'] + 4 * pos['column'] + pos['facing'])
 
 

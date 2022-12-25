@@ -2,7 +2,9 @@ import argparse
 
 
 def is_adjacent(cube, other_cube):
-    return (abs(other_cube[0] - cube[0]) == 1 and other_cube[1] == cube[1] and other_cube[2] == cube[2]) or (abs(other_cube[1] - cube[1]) == 1 and other_cube[2] == cube[2] and other_cube[0] == cube[0]) or (abs(other_cube[2] - cube[2]) == 1 and other_cube[0] == cube[0] and other_cube[1] == cube[1])
+    return (abs(other_cube[0] - cube[0]) == 1 and other_cube[1] == cube[1] and other_cube[2] == cube[2]) or \
+            (abs(other_cube[1] - cube[1]) == 1 and other_cube[2] == cube[2] and other_cube[0] == cube[0]) or \
+            (abs(other_cube[2] - cube[2]) == 1 and other_cube[0] == cube[0] and other_cube[1] == cube[1])
 
 
 def get_neighbor_cubes(x, y, z):

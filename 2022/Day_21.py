@@ -3,7 +3,7 @@ import copy
 import re
 
 
-def part_1(input_string):
+def get_monkeys(input_string):
     monkeys = {}
     for monkey_name, monkey_value in re.findall(r'(\w{4}): (\d+)', input_string):
         monkeys.update({
@@ -19,8 +19,13 @@ def part_1(input_string):
                 'right': r_monkey
                 }
             })
+    return monkeys
+
+
+def part_1(input_string):
+    monkeys = get_monkeys(input_string)
     while 'value' not in monkeys['root']:
-        for name, monkey in monkeys.items():
+        for monkey in monkeys.values():
             if 'value' not in monkey:
                 if 'value' in monkeys[monkey['left']] and 'value' in monkeys[monkey['right']]:
                     monkey_value = eval('{left} {operation} {right}'.format(
@@ -33,22 +38,9 @@ def part_1(input_string):
 
 
 def part_2(input_string):
-    monkeys = {}
-    for monkey_name, monkey_value in re.findall(r'(\w{4}): (\d+)', input_string):
-        monkeys.update({
-            monkey_name:{
-                'value': int(monkey_value)
-                }
-            })
-    for monkey_name, l_monkey, operation, r_monkey in re.findall(r'(\w{4}): (\w{4}) ([+\-*/]) (\w{4})', input_string):
-        monkeys.update({
-            monkey_name:{
-                'operation': operation,
-                'left': l_monkey,
-                'right': r_monkey
-                }
-            })
+    monkeys = get_monkeys(input_string)
     monkeys['root']['operation'] = '=='
+    # Get values not related to monkey humn
     is_updating = True
     while is_updating:
         is_updating = False
@@ -69,6 +61,7 @@ def part_2(input_string):
                             'value': int(monkey_value)}
                         })
                     is_updating = True
+    # Reversedly computing values for monkey humn
     monkeys['humn'] = {}
     name = 'root'
     number = 0

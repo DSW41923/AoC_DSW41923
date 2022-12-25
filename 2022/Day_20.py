@@ -11,8 +11,10 @@ def part_1(input_string):
         mixing_numbers.insert(new_index, (1, number))
 
     zero_index = mixing_numbers.index((1, 0))
-    desired_num = mixing_numbers[(zero_index + 1000) % len(numbers)][1] + mixing_numbers[(zero_index + 2000) % len(numbers)][1] + mixing_numbers[(zero_index + 3000) % len(numbers)][1]
-    print(desired_num)
+    print(
+        mixing_numbers[(zero_index + 1000) % len(numbers)][1] + \
+        mixing_numbers[(zero_index + 2000) % len(numbers)][1] + \
+        mixing_numbers[(zero_index + 3000) % len(numbers)][1])
 
 
 def part_2(input_string):
@@ -31,8 +33,10 @@ def part_2(input_string):
                 mixing_numbers.insert(new_index, (i, number))
 
     zero_index = mixing_numbers.index((numbers.index(0), 0))
-    desired_num = mixing_numbers[(zero_index + 1000) % len(numbers)][1] + mixing_numbers[(zero_index + 2000) % len(numbers)][1] + mixing_numbers[(zero_index + 3000) % len(numbers)][1]
-    print(desired_num)
+    print(
+        mixing_numbers[(zero_index + 1000) % len(numbers)][1] + \
+        mixing_numbers[(zero_index + 2000) % len(numbers)][1] + \
+        mixing_numbers[(zero_index + 3000) % len(numbers)][1])
 
 
 def main():

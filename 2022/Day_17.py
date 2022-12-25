@@ -1,7 +1,63 @@
 import argparse
 
 
-def settle_next_unit(unit, unit_height, unit_bounds, jet_string, jet_index, chamber):
+def settle_units(settled_units, unit_count, unit_heights, chamber, jet_index, jet_string):
+    while settled_units < unit_count:
+        new_unit = list(unit_heights.keys())[settled_units % 5]
+        initial_height = len(chamber) + 3
+        if new_unit == '-':
+            new_unit_bounds = {
+                    'l': [(initial_height, 2)],
+                    'r': [(initial_height, 7)],
+                    'b': [(i, c) for i in range(initial_height - 1, initial_height) for c in range(3, 7)]}
+        if new_unit == '+':
+            new_unit_bounds = {
+                    'l': [
+                        (initial_height, 3),
+                        (initial_height + 1, 2),
+                        (initial_height + 2, 3)],
+                    'r': [
+                        (initial_height, 5),
+                        (initial_height + 1, 6),
+                        (initial_height + 2, 5)],
+                    'b': [
+                        (initial_height, 3),
+                        (initial_height - 1, 4),
+                        (initial_height, 5)]
+                    }
+        if new_unit == 'J':
+            new_unit_bounds = {
+                    'l': [
+                        (initial_height, 2),
+                        (initial_height + 1, 4),
+                        (initial_height + 2, 4)],
+                    'r': [(i, 6) for i in range(initial_height, initial_height + 3)],
+                    'b': [(initial_height - 1, i) for i in range(3, 6)],
+                    }
+        if new_unit == 'I':
+            new_unit_bounds = {
+                    'l': [(i, 2) for i in range(initial_height, initial_height + 4)],
+                    'r': [(i, 4) for i in range(initial_height, initial_height + 4)],
+                    'b': [(initial_height - 1, 3)]
+                    }
+        if new_unit == 'o':
+            new_unit_bounds = {
+                    'l': [
+                        (initial_height, 2),
+                        (initial_height + 1, 2)],
+                    'r': [
+                        (initial_height, 5),
+                        (initial_height + 1, 5)],
+                    'b': [
+                        (initial_height - 1, 3),
+                        (initial_height - 1, 4)]
+                    }
+        jet_index = settle_next_unit(unit_heights[new_unit], new_unit_bounds, jet_string, jet_index, chamber)
+        # print('\n'.join(list(map(lambda s: ''.join(s), reversed(chamber)))))
+        settled_units += 1
+    return jet_index
+
+def settle_next_unit(unit_height, unit_bounds, jet_string, jet_index, chamber):
     while True:
         movement = jet_string[jet_index]
         if movement == '>':
@@ -79,62 +135,8 @@ def part_1(input_string):
             'J': 3,
             'I': 4,
             'o': 2}
-    settled_units = 0
     chamber = [list('+-------+')]
-    jet_index = 0
-    while settled_units < 2022:
-        new_unit = list(unit_heights.keys())[settled_units % 5]
-        initial_height = len(chamber) + 3
-        if new_unit == '-':
-            new_unit_bounds = {
-                    'l': [(initial_height, 2)],
-                    'r': [(initial_height, 7)],
-                    'b': [(i, c) for i in range(initial_height - 1, initial_height) for c in range(3, 7)]}
-        if new_unit == '+':
-            new_unit_bounds = {
-                    'l': [
-                        (initial_height, 3),
-                        (initial_height + 1, 2),
-                        (initial_height + 2, 3)],
-                    'r': [
-                        (initial_height, 5),
-                        (initial_height + 1, 6),
-                        (initial_height + 2, 5)],
-                    'b': [
-                        (initial_height, 3),
-                        (initial_height - 1, 4),
-                        (initial_height, 5)]
-                    }
-        if new_unit == 'J':
-            new_unit_bounds = {
-                    'l': [
-                        (initial_height, 2),
-                        (initial_height + 1, 4),
-                        (initial_height + 2, 4)],
-                    'r': [(i, 6) for i in range(initial_height, initial_height + 3)],
-                    'b': [(initial_height - 1, i) for i in range(3, 6)],
-                    }
-        if new_unit == 'I':
-            new_unit_bounds = {
-                    'l': [(i, 2) for i in range(initial_height, initial_height + 4)],
-                    'r': [(i, 4) for i in range(initial_height, initial_height + 4)],
-                    'b': [(initial_height - 1, 3)]
-                    }
-        if new_unit == 'o':
-            new_unit_bounds = {
-                    'l': [
-                        (initial_height, 2),
-                        (initial_height + 1, 2)],
-                    'r': [
-                        (initial_height, 5),
-                        (initial_height + 1, 5)],
-                    'b': [
-                        (initial_height - 1, 3),
-                        (initial_height - 1, 4)]
-                    }
-        jet_index = settle_next_unit(new_unit, unit_heights[new_unit], new_unit_bounds, input_string, jet_index, chamber)
-        print('\n'.join(list(map(lambda s: ''.join(s), reversed(chamber)))))
-        settled_units += 1
+    settle_units(0, 2022, unit_heights, chamber, 0, input_string)
     print(len(chamber) - 1)
 
 
@@ -152,6 +154,7 @@ def part_2(input_string):
     chamber = [list('+-------+')]
     jet_index = 0
     loop_context = {}
+    # First identifying loops
     while True:
         new_unit = list(unit_heights.keys())[settled_units % 5]
         initial_height = len(chamber) + 3
@@ -202,7 +205,7 @@ def part_2(input_string):
                         (initial_height - 1, 3),
                         (initial_height - 1, 4)]
                     }
-        jet_index = settle_next_unit(new_unit, unit_heights[new_unit], new_unit_bounds, input_string, jet_index, chamber)
+        jet_index = settle_next_unit(unit_heights[new_unit], new_unit_bounds, input_string, jet_index, chamber)
         settled_units += 1
         highest = []
         for i in range(1, 8):
@@ -222,78 +225,20 @@ def part_2(input_string):
             chamber_memo.update({
                 (jet_index, new_unit, tuple(highest)): (settled_units, len(chamber) + len(chamber_history) - 1)
                 })
-        # print(settled_units)
         if list('|#######|') in chamber:
             blocked_row_index = chamber.index(list('|#######|'))
             for c in chamber[1:blocked_row_index + 1]:
                 c_int = int(''.join(['1' if c_char == '#' else '0' for c_char in c[1:8]]), 2)
                 chamber_history.append(c_int)
             chamber = [chamber[0]] + chamber[blocked_row_index + 1:]
-    print(loop_context)
-    print(chamber_memo[loop_context['key']])
-    print(loop_context['value'][0] - chamber_memo[loop_context['key']][0])
-    print(loop_context['value'][1] - chamber_memo[loop_context['key']][1])
+
+    # Computing rest units to be settled
     target_settled_units = 1000000000000
-    precomputed_height = chamber_memo[loop_context['key']][1] + ((target_settled_units - chamber_memo[loop_context['key']][0]) // loop_context['units']) * loop_context['height'] - len(chamber) + 1
-    rest_units = (target_settled_units - chamber_memo[loop_context['key']][0]) % loop_context['units']
-    print(precomputed_height)
-    print(rest_units)
-    print((target_settled_units - chamber_memo[loop_context['key']][0]) % loop_context['units'])
-    print('\n'.join(list(map(lambda s: ''.join(s), reversed(chamber)))))
-    settled_units = target_settled_units - (target_settled_units - chamber_memo[loop_context['key']][0]) % loop_context['units']
-    while settled_units < target_settled_units:
-        new_unit = list(unit_heights.keys())[settled_units % 5]
-        initial_height = len(chamber) + 3
-        if new_unit == '-':
-            new_unit_bounds = {
-                    'l': [(initial_height, 2)],
-                    'r': [(initial_height, 7)],
-                    'b': [(i, c) for i in range(initial_height - 1, initial_height) for c in range(3, 7)]}
-        if new_unit == '+':
-            new_unit_bounds = {
-                    'l': [
-                        (initial_height, 3),
-                        (initial_height + 1, 2),
-                        (initial_height + 2, 3)],
-                    'r': [
-                        (initial_height, 5),
-                        (initial_height + 1, 6),
-                        (initial_height + 2, 5)],
-                    'b': [
-                        (initial_height, 3),
-                        (initial_height - 1, 4),
-                        (initial_height, 5)]
-                    }
-        if new_unit == 'J':
-            new_unit_bounds = {
-                    'l': [
-                        (initial_height, 2),
-                        (initial_height + 1, 4),
-                        (initial_height + 2, 4)],
-                    'r': [(i, 6) for i in range(initial_height, initial_height + 3)],
-                    'b': [(initial_height - 1, i) for i in range(3, 6)],
-                    }
-        if new_unit == 'I':
-            new_unit_bounds = {
-                    'l': [(i, 2) for i in range(initial_height, initial_height + 4)],
-                    'r': [(i, 4) for i in range(initial_height, initial_height + 4)],
-                    'b': [(initial_height - 1, 3)]
-                    }
-        if new_unit == 'o':
-            new_unit_bounds = {
-                    'l': [
-                        (initial_height, 2),
-                        (initial_height + 1, 2)],
-                    'r': [
-                        (initial_height, 5),
-                        (initial_height + 1, 5)],
-                    'b': [
-                        (initial_height - 1, 3),
-                        (initial_height - 1, 4)]
-                    }
-        jet_index = settle_next_unit(new_unit, unit_heights[new_unit], new_unit_bounds, input_string, jet_index, chamber)
-        settled_units += 1
-    # print('\n'.join(list(map(lambda s: ''.join(s), reversed(chamber)))))
+    preloop_units = chamber_memo[loop_context['key']][0]
+    preloop_height = chamber_memo[loop_context['key']][1]
+    precomputed_height = preloop_height + ((target_settled_units - preloop_units) // loop_context['units']) * loop_context['height'] - len(chamber) + 1
+    settled_units = target_settled_units - (target_settled_units - preloop_units) % loop_context['units']
+    settle_units(settled_units, target_settled_units, unit_heights, chamber, jet_index, input_string)
     print(precomputed_height + len(chamber) - 1)
 
 
