@@ -1,12 +1,30 @@
 import argparse
+import re
 
 
 def part_1(input_string):
-    pass
+    rows = input_string.split('\n')
+    result = 0
+    for row in rows:
+        numbers = list(map(int, re.findall(r'\d+', row)))
+        result += (max(numbers) - min(numbers))
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    rows = input_string.split('\n')
+    result = 0
+    for row in rows:
+        numbers = sorted(list(map(int, re.findall(r'\d+', row))))
+        found_division = False
+        for i in range(len(numbers)):
+            for num in numbers[i + 1:]:
+                if num % numbers[i] == 0:
+                    result += (num // numbers[i])
+                    break
+            if found_division:
+                break
+    print(result)
 
 
 def main():

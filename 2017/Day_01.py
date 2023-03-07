@@ -2,11 +2,21 @@ import argparse
 
 
 def part_1(input_string):
-    pass
+    digits = list(input_string)
+    result = 0
+    for i in range(-1, len(digits) - 1):
+        if digits[i] == digits[i + 1]:
+            result += int(digits[i])
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    digits = list(input_string)
+    result = 0
+    for i in range(-len(digits) // 2, len(digits) // 2 - 1):
+        if digits[i] == digits[i + len(digits) // 2]:
+            result += int(digits[i])
+    print(result)
 
 
 def main():
