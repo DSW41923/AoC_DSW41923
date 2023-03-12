@@ -2,11 +2,30 @@ import argparse
 
 
 def part_1(input_string):
-    pass
+    instructions = list(map(int, input_string.split('\n')))
+    cur = 0
+    steps = 0
+    while 0 <= cur < len(instructions):
+        new_cur = cur + instructions[cur]
+        instructions[cur] += 1
+        cur = new_cur
+        steps += 1
+    print(steps)
 
 
 def part_2(input_string):
-    pass
+    instructions = list(map(int, input_string.split('\n')))
+    cur = 0
+    steps = 0
+    while 0 <= cur < len(instructions):
+        new_cur = cur + instructions[cur]
+        if instructions[cur] >= 3:
+            instructions[cur] -= 1
+        else:
+            instructions[cur] += 1
+        cur = new_cur
+        steps += 1
+    print(steps)
 
 
 def main():

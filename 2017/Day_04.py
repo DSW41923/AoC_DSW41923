@@ -1,12 +1,32 @@
 import argparse
+import string
 
 
 def part_1(input_string):
-    pass
+    passphrases = input_string.split('\n')
+    result = 0
+    for passphrase in passphrases:
+        words = passphrase.split(' ')
+        if len(set(words)) == len(words):
+            result += 1
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    passphrases = input_string.split('\n')
+    result = 0
+    for passphrase in passphrases:
+        words = passphrase.split(' ')
+        encoded_words = []
+        for word in words:
+            encoded_word = ""
+            for char in string.ascii_lowercase:
+                encoded_word += char + str(word.count(char))
+            if encoded_word not in encoded_words:
+                encoded_words.append(encoded_word)
+        if len(encoded_words) == len(words):
+            result += 1
+    print(result)
 
 
 def main():
