@@ -2,11 +2,59 @@ import argparse
 
 
 def part_1(input_string):
-    pass
+    total_score = 1
+    score = 1
+    groups_string = input_string[1:-1]
+    is_grabage = False
+    omit_next = False
+    for char in groups_string:
+        if omit_next:
+            omit_next = False
+            continue
+
+        if is_grabage:
+            if char == "!":
+                omit_next = True
+            if char == ">":
+                is_grabage = False
+            continue
+
+        if char == "<":
+            is_grabage = True
+            continue
+
+        if char == "{":
+            score += 1
+        elif char == "}" and score > 1:
+            total_score += score
+            score -= 1
+    print(total_score)
 
 
 def part_2(input_string):
-    pass
+    garbage_count = 0
+    is_grabage = False
+    omit_next = False
+    for char in input_string:
+        if omit_next:
+            omit_next = False
+            continue
+
+        if is_grabage:
+            if char == "!":
+                omit_next = True
+                continue
+            if char == ">":
+                is_grabage = False
+                continue
+            garbage_count += 1
+            continue
+
+        if char == "<":
+            is_grabage = True
+            continue
+
+    print(garbage_count)
 
 
 def main():
