@@ -2,11 +2,33 @@ import argparse
 
 
 def part_1(input_string):
-    pass
+    numbers = list(range(256))
+    cur = 0
+    skip = 0
+    for length in list(map(int, input_string.split(','))):
+        numbers = list(reversed(numbers[:length])) + numbers[length:]
+        cur = (cur + length + skip) % 256
+        numbers = numbers[(length + skip) % 256:] + numbers[:(length + skip) % 256]
+        skip += 1
+    print(numbers[-cur] * numbers[-cur + 1])
 
 
 def part_2(input_string):
-    pass
+    lengths = list(map(ord, input_string)) + [17, 31, 73, 47, 23]
+    numbers = list(range(256))
+    cur = 0
+    skip = 0
+    for _ in range(64):
+        for length in lengths:
+            numbers = list(reversed(numbers[:length])) + numbers[length:]
+            cur = (cur + length + skip) % 256
+            numbers = numbers[(length + skip) % 256:] + numbers[:(length + skip) % 256]
+            skip += 1
+    numbers = numbers[-cur:] + numbers[:-cur]
+    output = [0 for _ in range(16)]
+    for i in range(256):
+        output[i // 16] ^= numbers[i]
+    print(''.join(list(map(lambda o: "{:02x}".format(o), output))))
 
 
 def main():
