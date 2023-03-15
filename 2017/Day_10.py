@@ -31,6 +31,24 @@ def part_2(input_string):
     print(''.join(list(map(lambda o: "{:02x}".format(o), output))))
 
 
+def knot_hash(msg):
+    lengths = list(map(ord, msg)) + [17, 31, 73, 47, 23]
+    numbers = list(range(256))
+    cur = 0
+    skip = 0
+    for _ in range(64):
+        for length in lengths:
+            numbers = list(reversed(numbers[:length])) + numbers[length:]
+            cur = (cur + length + skip) % 256
+            numbers = numbers[(length + skip) % 256:] + numbers[:(length + skip) % 256]
+            skip += 1
+    numbers = numbers[-cur:] + numbers[:-cur]
+    output = [0 for _ in range(16)]
+    for i in range(256):
+        output[i // 16] ^= numbers[i]
+    return ''.join(list(map(lambda o: "{:02x}".format(o), output)))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--part",

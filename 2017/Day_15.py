@@ -1,12 +1,33 @@
 import argparse
+import re
 
 
 def part_1(input_string):
-    pass
+    a = int(re.findall(r'Generator A starts with (\d+)', input_string)[0])
+    b = int(re.findall(r'Generator B starts with (\d+)', input_string)[0])
+    match_count = 0
+    for _ in range(40000000):
+        a = (a * 16807) % 2147483647
+        b = (b * 48271) % 2147483647
+        if a % 2**16 == b % 2**16:
+            match_count += 1
+    print(match_count)
 
 
 def part_2(input_string):
-    pass
+    a = int(re.findall(r'Generator A starts with (\d+)', input_string)[0])
+    b = int(re.findall(r'Generator B starts with (\d+)', input_string)[0])
+    match_count = 0
+    for _ in range(5000000):
+        while a % 4:
+            a = (a * 16807) % 2147483647
+        while b % 8:
+            b = (b * 48271) % 2147483647
+        if a % 2**16 == b % 2**16:
+            match_count += 1
+        a = (a * 16807) % 2147483647
+        b = (b * 48271) % 2147483647
+    print(match_count)
 
 
 def main():

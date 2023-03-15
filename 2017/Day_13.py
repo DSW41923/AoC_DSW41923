@@ -1,12 +1,42 @@
 import argparse
+import re
 
 
 def part_1(input_string):
-    pass
+    scanners = []
+    for layer, scanning_range in re.findall(r'(\d+): (\d+)', input_string):
+        while len(scanners) < int(layer):
+            scanners.append(0)
+        scanners.append(int(scanning_range))
+    severity  = 0
+    for t in range(len(scanners)):
+        if scanners[t] == 0:
+            continue
+        scanner_pos = t % (2 * scanners[t] - 2)
+        if scanner_pos == 0:
+            severity += t * scanners[t]
+    print(severity)
 
 
 def part_2(input_string):
-    pass
+    scanners = []
+    for layer, scanning_range in re.findall(r'(\d+): (\d+)', input_string):
+        while len(scanners) < int(layer):
+            scanners.append(0)
+        scanners.append(int(scanning_range))
+    time = 0
+    caught = True
+    while caught:
+        caught = False
+        time += 1
+        for t in range(len(scanners)):
+            if scanners[t] == 0:
+                continue
+            scanner_pos = (time + t) % (2 * scanners[t] - 2)
+            if scanner_pos == 0:
+                caught = True
+                break
+    print(time)
 
 
 def main():
