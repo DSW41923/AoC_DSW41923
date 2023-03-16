@@ -2,11 +2,30 @@ import argparse
 
 
 def part_1(input_string):
-    pass
+    step = int(input_string)
+    buffer = [0]
+    cur = 0
+    for i in range(1, 2018):
+        new_cur = (cur + step) % len(buffer)
+        buffer.insert(new_cur + 1, i)
+        cur = new_cur + 1
+    print(buffer[(buffer.index(2017) + 1) % len(buffer)])
+    print(buffer[(buffer.index(0) + 1) % len(buffer)])
 
 
 def part_2(input_string):
-    pass
+    step = int(input_string)
+    value = ''
+    pos = 0
+    cur = 0
+    for i in range(1, 50000001):
+        new_cur = (cur + step) % i
+        if new_cur == pos:
+            value = i
+        elif new_cur < pos:
+            pos += 1
+        cur = new_cur + 1
+    print(value)
 
 
 def main():
