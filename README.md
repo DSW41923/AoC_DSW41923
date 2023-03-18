@@ -1,7 +1,10 @@
 # Advent of Code-DSW41923
 ## Current progress
-- [x] 2021: Completed
-- [x] 2020: Completed
-- [x] 2016: Completed
-- [x] 2015: Completed
-### Slowly finishing Advent of Code 2017 - 2019
+- [x] 2022
+- [x] 2021
+- [x] 2020
+- [ ] 2019
+- [ ] 2018
+- [x] 2017
+- [x] 2016
+- [x] 2015
