@@ -1,12 +1,34 @@
 import argparse
 
+from copy import deepcopy
+
 
 def part_1(input_string):
-    pass
+    histories = [list(map(int, line.split(' '))) for line in input_string.split('\n')]
+    result = 0
+    for history in histories:
+        histories_of_history= [history]
+        while not all([h == 0 for h in histories_of_history[-1]]):
+            new_h = []
+            for i in range(len(histories_of_history[-1])-1):
+                new_h.append(histories_of_history[-1][i+1]-histories_of_history[-1][i])
+            histories_of_history.append(new_h)
+        result += sum([h[-1] for h in histories_of_history])
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    histories = [list(map(int, line.split(' '))) for line in input_string.split('\n')]
+    result = 0
+    for history in histories:
+        histories_of_history= [history]
+        while not all([h == 0 for h in histories_of_history[-1]]):
+            new_h = []
+            for i in range(len(histories_of_history[-1])-1):
+                new_h.append(histories_of_history[-1][i+1]-histories_of_history[-1][i])
+            histories_of_history.append(new_h)
+        result += sum([h[0]*(-1)**i for i, h in enumerate(histories_of_history)])
+    print(result)
 
 
 def main():
