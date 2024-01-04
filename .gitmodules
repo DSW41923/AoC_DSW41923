@@ -1,0 +1,3 @@
+[submodule "inputs"]
+	path = inputs
+	url = git@github.com:DSW41923/AoC_Inputs.git
