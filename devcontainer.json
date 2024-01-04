@@ -3,7 +3,7 @@
   "customizations": {
     "codespaces": {
       "repositories": {
-        "my_org/my_repo": {
+        "DSW41923/AoC_Inputs": {
           "permissions": "write-all"
         }
       }
