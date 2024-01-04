@@ -17,7 +17,7 @@ def main(argv):
             print('Advent of Code 2020 Day 11')
             sys.exit()
 
-    file_input = open('Input_11.txt', 'r')
+    file_input = open('inputs/2020/Input_11.txt', 'r')
     seat_strings = file_input.readlines()
     file_input.close()
     seat_map = []

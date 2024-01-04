@@ -26,7 +26,7 @@ def main(argv):
             print('Advent of Code 2020 Day 25')
             sys.exit()
 
-    file_input = open('Input_25.txt', 'r')
+    file_input = open('inputs/2020/Input_25.txt', 'r')
     input_strings = file_input.readlines()
     file_input.close()
     pk1, pk2 = tuple(map(int, input_strings))

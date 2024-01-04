@@ -1,4 +1,4 @@
-input_string = open('input-D2.txt', 'r')
+input_string = open('inputs/2015/input-D2.txt', 'r')
 input_string = input_string.readlines()
 total_area = 0
 total_length = 0

@@ -17,7 +17,7 @@ def main(argv):
             print('Advent of Code 2020 Day 07')
             sys.exit()
 
-    file_input = open('Input_07.txt', 'r')
+    file_input = open('inputs/2020/Input_07.txt', 'r')
     raw_data = file_input.readlines()
     file_input.close()
     rules = {}

@@ -1,4 +1,4 @@
-input_string = open('input-D17.txt', 'r')
+input_string = open('inputs/2015/input-D17.txt', 'r')
 container_data_string = input_string.readlines()
 input_string.close()
 container_data = list(map(int, container_data_string))

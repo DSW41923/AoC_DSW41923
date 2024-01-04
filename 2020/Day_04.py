@@ -18,7 +18,7 @@ def main(argv):
             sys.exit()
 
     required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-    file_input = open('Input_04.txt', 'r')
+    file_input = open('inputs/2020/Input_04.txt', 'r')
     raw_data = file_input.read().split('\n\n')
     file_input.close()
     passport_data = []

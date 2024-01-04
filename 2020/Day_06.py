@@ -17,7 +17,7 @@ def main(argv):
             print('Advent of Code 2020 Day 06')
             sys.exit()
 
-    file_input = open('Input_06.txt', 'r')
+    file_input = open('inputs/2020/Input_06.txt', 'r')
     raw_data = file_input.read().split('\r\n\r\n')
     file_input.close()
     form_data = []

@@ -51,7 +51,7 @@ def main(argv):
             print('Advent of Code 2020 Day 19')
             sys.exit()
 
-    file_input = open('Input_19.txt', 'r')
+    file_input = open('inputs/2020/Input_19.txt', 'r')
     rule_strings, messages = file_input.read().split('\n\n')
     file_input.close()
     rules = {}

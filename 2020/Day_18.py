@@ -48,7 +48,7 @@ def main(argv):
             print('Advent of Code 2020 Day 18')
             sys.exit()
 
-    file_input = open('Input_18.txt', 'r')
+    file_input = open('inputs/2020/Input_18.txt', 'r')
     expressions = file_input.readlines()
     file_input.close()
     evaluations = copy.deepcopy(expressions)

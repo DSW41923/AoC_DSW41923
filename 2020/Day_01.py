@@ -16,7 +16,7 @@ def main(argv):
             print('Advent of Code 2020 Day 01')
             sys.exit()
 
-    file_input = open('Input_01.txt', 'r')
+    file_input = open('inputs/2020/Input_01.txt', 'r')
     number_strings = file_input.readlines()
     numbers = []
     for x in number_strings:
