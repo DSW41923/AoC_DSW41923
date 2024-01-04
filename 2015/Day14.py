@@ -1,4 +1,4 @@
-input_string = open('../AoC_Inputs/2015/input-D14.txt', 'r')
+input_string = open('../inputs/2015/input-D14.txt', 'r')
 reindeer_data_string = input_string.readlines()
 input_string.close()
 reindeer_data = []

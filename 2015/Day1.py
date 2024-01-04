@@ -1,5 +1,5 @@
 floor = 0
-string = open('../AoC_Inputs/2015/input-D1.txt', 'r')
+string = open('../inputs/2015/input-D1.txt', 'r')
 input_string = string.read()
 index = 0
 for x in input_string:

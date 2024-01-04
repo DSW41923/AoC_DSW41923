@@ -1,7 +1,7 @@
 import re
 import itertools
 
-input_string = open('../AoC_Inputs/2015/input-D15.txt', 'r')
+input_string = open('../inputs/2015/input-D15.txt', 'r')
 ingredient_data_string = input_string.read()
 input_string.close()
 ingredient_data = []
