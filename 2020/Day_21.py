@@ -17,7 +17,7 @@ def main(argv):
             print('Advent of Code 2020 Day 21')
             sys.exit()
 
-    file_input = open('Input_21.txt', 'r')
+    file_input = open('inputs/2020/Input_21.txt', 'r')
     input_strings = file_input.read()
     file_input.close()
     allergen_in_foods = {}

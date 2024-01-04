@@ -17,7 +17,7 @@ def main(argv):
             print('Advent of Code 2020 Day 16')
             sys.exit()
 
-    file_input = open('Input_16.txt', 'r')
+    file_input = open('inputs/2020/Input_16.txt', 'r')
     input_strings = file_input.read().split('\n\n')
     file_input.close()
     field_rules_input, my_ticket_input, nearby_tickets_input = input_strings

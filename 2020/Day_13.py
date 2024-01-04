@@ -18,7 +18,7 @@ def main(argv):
             print('Advent of Code 2020 Day 13')
             sys.exit()
 
-    file_input = open('Input_13.txt', 'r')
+    file_input = open('inputs/2020/Input_13.txt', 'r')
     input_data = file_input.readlines()
     file_input.close()
     earliest_timestamp = int(input_data[0])

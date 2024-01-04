@@ -16,7 +16,7 @@ def main(argv):
             print('Advent of Code 2020 Day 05')
             sys.exit()
 
-    file_input = open('Input_05.txt', 'r')
+    file_input = open('inputs/2020/Input_05.txt', 'r')
     raw_data = file_input.readlines()
     boardingpass_data = []
     for data in raw_data:

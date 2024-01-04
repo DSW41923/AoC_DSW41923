@@ -22,7 +22,7 @@ def main(argv):
             print('Advent of Code 2020 Day 24')
             sys.exit()
 
-    file_input = open('Input_24.txt', 'r')
+    file_input = open('inputs/2020/Input_24.txt', 'r')
     input_strings = file_input.readlines()
     file_input.close()
     black_tiles = []

@@ -16,7 +16,7 @@ def main(argv):
             print('Advent of Code 2020 Day 03')
             sys.exit()
 
-    file_input = open('Input_03.txt', 'r')
+    file_input = open('inputs/2020/Input_03.txt', 'r')
     map_strings = list(map(lambda s: s.replace('\n', ''), file_input.readlines()))
     file_input.close()
     def count_tree(map_data, right, down):

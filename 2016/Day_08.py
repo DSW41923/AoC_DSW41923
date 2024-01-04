@@ -58,7 +58,7 @@ def main():
                         help="Specify puzzle 1 or puzzle 2 to be solved. Run both by default.",
                         required=False)
     args = parser.parse_args()
-    file_input = open('Input_08.txt', 'r')
+    file_input = open('../inputs/2016/Input_08.txt', 'r')
     instructions = file_input.readlines()
     file_input.close()
 

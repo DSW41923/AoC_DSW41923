@@ -132,7 +132,7 @@ def main(argv):
             print('Advent of Code 2020 Day 17')
             sys.exit()
 
-    file_input = open('Input_17.txt', 'r')
+    file_input = open('inputs/2020/Input_17.txt', 'r')
     input_strings = file_input.readlines()
     file_input.close()
     initial_states = []

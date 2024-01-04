@@ -16,7 +16,7 @@ def main(argv):
             print('Advent of Code 2020 Day 10')
             sys.exit()
 
-    file_input = open('Input_10.txt', 'r')
+    file_input = open('inputs/2020/Input_10.txt', 'r')
     adapter_strings = file_input.readlines()
     file_input.close()
     adapters = []

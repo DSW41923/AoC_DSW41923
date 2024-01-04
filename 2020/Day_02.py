@@ -16,7 +16,7 @@ def main(argv):
             print('Advent of Code 2020 Day 02')
             sys.exit()
 
-    file_input = open('Input_02.txt', 'r')
+    file_input = open('inputs/2020/Input_02.txt', 'r')
     password_entries_input = file_input.readlines()
     password_entries = []
     correct_entries_count = 0
