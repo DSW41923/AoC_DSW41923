@@ -1,7 +1,6 @@
 # Advent of Code-DSW41923
-## In progress
-- 2023
 ## Current progress
+- [x] 2023
 - [x] 2022
 - [x] 2021
 - [x] 2020
