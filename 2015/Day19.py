@@ -1,7 +1,7 @@
 import re
 import copy
 
-file_input = open('../inputs/2015/input-D19.txt', 'r')
+file_input = open('inputs/2015/input-D19.txt', 'r')
 input_strings = file_input.readlines()
 file_input.close()
 replacements = []

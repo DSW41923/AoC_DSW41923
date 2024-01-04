@@ -13,7 +13,7 @@ def getDistance(route, start, end):
     return result
 
 
-input_string = open('../inputs/2015/input-D9.txt', 'r')
+input_string = open('inputs/2015/input-D9.txt', 'r')
 input_string = input_string.readlines()
 route = {}
 locations = []

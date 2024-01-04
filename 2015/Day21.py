@@ -34,7 +34,7 @@ def get_binary_with_length(x, length):
     return text_num
 
 
-file_input = open('../inputs/2015/input-D21.txt', 'r')
+file_input = open('inputs/2015/input-D21.txt', 'r')
 input_strings = file_input.read()
 file_input.close()
 

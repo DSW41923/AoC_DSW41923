@@ -8,7 +8,7 @@ def parse(string):
     return start, end
 
 
-input_string = open('../inputs/2015/input-D6.txt', 'r')
+input_string = open('inputs/2015/input-D6.txt', 'r')
 input_string = input_string.readlines()
 lights = []
 on_count = 0

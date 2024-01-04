@@ -1,6 +1,6 @@
 import re
 
-input_string = open('../inputs/2015/input-D16.txt', 'r')
+input_string = open('inputs/2015/input-D16.txt', 'r')
 aunt_data_string = input_string.read()
 input_string.close()
 ideal_aunt_data = {

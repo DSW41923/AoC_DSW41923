@@ -1,4 +1,4 @@
-input_string = open('../inputs/2015/input-D8.txt', 'r')
+input_string = open('inputs/2015/input-D8.txt', 'r')
 input_string = input_string.readlines()
 count = 0
 count_another = 0

@@ -1,4 +1,4 @@
-file_input = open('../inputs/2015/input-D23.txt', 'r')
+file_input = open('inputs/2015/input-D23.txt', 'r')
 input_strings = file_input.readlines()
 file_input.close()
 instructions = []

@@ -32,7 +32,7 @@ def get_min_package_combinations(weights, target, group_num, min_package_num=0):
                 return result
 
 
-file_input = open('../inputs/2015/input-D24.txt', 'r')
+file_input = open('inputs/2015/input-D24.txt', 'r')
 input_strings = file_input.readlines()
 file_input.close()
 packages = list(map(int, input_strings))
