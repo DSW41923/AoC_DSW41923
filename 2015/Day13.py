@@ -1,6 +1,6 @@
 import itertools
 
-input_string = open('input-D13.txt', 'r')
+input_string = open('../AoC_Inputs/2015/input-D13.txt', 'r')
 happiness_descriptions = input_string.readlines()
 input_string.close()
 happiness_dict = {}

@@ -1,0 +1,3 @@
+[submodule "AoC_Inputs"]
+	path = AoC_Inputs
+	url = https://github.com/DSW41923/AoC_Inputs.git

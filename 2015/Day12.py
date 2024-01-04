@@ -1,7 +1,7 @@
 import re
 import json
 
-string = open('input-D12.txt', 'r')
+string = open('../AoC_Inputs/2015/input-D12.txt', 'r')
 input_string = string.read()
 string.close()
 
