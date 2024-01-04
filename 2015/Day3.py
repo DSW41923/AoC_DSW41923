@@ -3,7 +3,7 @@ position_S = (0, 0)
 position_R = (0, 0)
 old_positions = [(0, 0)]
 current = 'S'
-string = open('input-D3.txt', 'r')
+string = open('../inputs/2015/input-D3.txt', 'r')
 input_string = string.read()
 # input_string = '^v^v^v^v^v'
 for x in input_string:

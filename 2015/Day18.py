@@ -16,7 +16,7 @@ def get_adjacents(a, b, configuration):
     return adjacents
 
 
-file_input = open('input-D18.txt', 'r')
+file_input = open('../inputs/2015/input-D18.txt', 'r')
 light_strings = file_input.readlines()
 file_input.close()
 light_map = []

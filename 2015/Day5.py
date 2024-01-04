@@ -1,4 +1,4 @@
-input_string = open('input-D5.txt', 'r')
+input_string = open('../inputs/2015/input-D5.txt', 'r')
 input_string = input_string.readlines()
 total_nice = 0
 another_nice = 0
