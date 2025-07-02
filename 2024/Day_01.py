@@ -1,12 +1,33 @@
 import argparse
+import re
 
+from collections import Counter
 
 def part_1(input_string):
-    pass
+    left = []
+    right = []
+    for left_num, right_num in re.findall(r'(\d+) +(\d+)', input_string):
+        left.append(int(left_num))
+        right.append(int(right_num))
+    left.sort()
+    right.sort()
+    result = 0
+    for l, r in zip(left, right):
+        result += abs(r - l)
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    left = []
+    right = []
+    for left_num, right_num in re.findall(r'(\d+) +(\d+)', input_string):
+        left.append(int(left_num))
+        right.append(int(right_num))
+    right_counter = Counter(right)
+    result = 0
+    for l in left:
+        result += l * right_counter[l]
+    print(result)
 
 
 def main():
