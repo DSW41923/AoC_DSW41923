@@ -20,7 +20,7 @@ def main():
                         help="Specify puzzle 1 or puzzle 2 to be solved. Run both by default.",
                         required=False)
     args = parser.parse_args()
-    file_input = open('Input_{day}.txt', 'r')
+    file_input = open('inputs/{year}/Input_{day}.txt', 'r')
     input_string = file_input.read()
     file_input.close()
 
@@ -47,12 +47,13 @@ def main():
     year = args.year
     print("Initializing for Adevent of Code Year {}".format(year))
     Path(str(year)).mkdir(exist_ok=True)
+    Path( "./inputs/"+str(year)).mkdir(exist_ok=True)
     for day in range(1, 26):
         day_file_name = "./{}/Day_{}.py".format(year, str(day).zfill(2))
-        input_file_name = "./{}/Input_{}.txt".format(year, str(day).zfill(2))
+        input_file_name = "./inputs/{}/Input_{}.txt".format(year, str(day).zfill(2))
         with open(day_file_name, "w") as day_file, open(input_file_name, "w") as input_file:
             input_file.close()
-            day_file.write(DAY_FILE_CONTENT.format(day=str(day).zfill(2)))
+            day_file.write(DAY_FILE_CONTENT.format(year=str(year),day=str(day).zfill(2)))
     print("Initialization for Adevent of Code Year {} Completed!".format(year))
 
 
