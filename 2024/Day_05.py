@@ -1,12 +1,53 @@
 import argparse
+import re
+
+
+def parse_input(input_string):
+    rules_string, updates_string = input_string.split('\n\n')
+    rules = {}
+    for page0, page1 in re.findall(r'(\d+)\|(\d+)', rules_string):
+        if page0 not in rules:
+            rules[page0] = [page1]
+        else:
+            rules[page0] += [page1]
+    return rules, list(map(lambda u: u.split(','), updates_string.split('\n')))
+
+
+def is_correct_update(rules, update_data):
+    for i in range(1,len(update_data)):
+        for prev in update_data[:i]:
+            if prev in rules[update_data[i]]:
+                return False
+    return True
 
 
 def part_1(input_string):
-    pass
+    rules, updates = parse_input(input_string)
+    result = 0
+    for u in updates:
+        if is_correct_update(rules, u):
+            result += int(u[len(u)//2])
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    rules, updates = parse_input(input_string)
+    incorrect_updates = []
+    for u in updates:
+        if not is_correct_update(rules, u):
+            incorrect_updates.append(u)
+    result = 0
+    for u in incorrect_updates:
+        corrected_u = [u[0]]
+        for i in range(1,len(u)):
+            for j in range(len(corrected_u)):
+                if corrected_u[j] in rules[u[i]]:
+                    corrected_u = corrected_u[:j] + [u[i]] + corrected_u[j:]
+                    break
+            if u[i] not in corrected_u:
+                corrected_u.append(u[i])
+        result += int(corrected_u[len(corrected_u)//2])
+    print(result)
 
 
 def main():
