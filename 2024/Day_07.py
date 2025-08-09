@@ -1,12 +1,49 @@
 import argparse
+import re
 
 
 def part_1(input_string):
-    pass
+    result = 0
+    for target, numbers in re.findall(r'(\d+): ([\d ]+)', input_string):
+        target = int(target)
+        numbers = list(map(int, numbers.split(' ')))
+        for i in range(2**(len(numbers)-1)):
+            trial = numbers[0]
+            opertors = bin(i)[2:].zfill(len(numbers) - 1)
+            for j, o in enumerate(opertors):
+                if o == '0':
+                    trial *= numbers[j+1]
+                elif o == '1':
+                    trial += numbers[j+1]
+                if trial > target:
+                    break
+            if trial == target:
+                result += target
+                break
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    result = 0
+    for target, numbers in re.findall(r'(\d+): ([\d ]+)', input_string):
+        target = int(target)
+        numbers = list(map(int, numbers.split(' ')))
+        for i in range(3**(len(numbers)-1)):
+            trial = numbers[0]
+            for j in range(len(numbers)-1):
+                if (i%3) == 0:
+                    trial *= numbers[j+1]
+                elif (i%3) == 1:
+                    trial += numbers[j+1]
+                elif (i%3) == 2:
+                    trial = int(str(trial)+str(numbers[j+1]))
+                if trial > target:
+                    break
+                i = i//3
+            if trial == target:
+                result += target
+                break
+    print(result)
 
 
 def main():

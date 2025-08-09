@@ -16,8 +16,6 @@ def get_map_data(input_string):
             break
     return patrol_map, max_x, max_y, pos
 
-
-
 def get_next_pos(pos, facing):
     if facing == 0:
         return (pos[0]-1, pos[1])
