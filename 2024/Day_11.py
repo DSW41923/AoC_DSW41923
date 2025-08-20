@@ -1,12 +1,52 @@
 import argparse
 
+from functools import lru_cache
+
+
+def count_stones_v1(stones, blinks):
+    for _ in range(blinks):
+        new_stones = []
+        for stone in stones:
+            if stone == 0:
+                new_stones.append(1)
+            elif len(str(stone)) % 2 == 0:
+                stone_str = str(stone)
+                l, r = int(stone_str[:len(stone_str) // 2]), int(stone_str[len(stone_str) // 2:])
+                new_stones += [l, r]
+            else:
+                new_stones.append(stone * 2024)
+        stones = new_stones
+    return len(stones)
+
+
+
+@lru_cache(maxsize=None)
+def count_stones_v2(stones, blinks):
+    if blinks == 0:
+        return 1
+
+    result = 0
+    for stone in stones:
+        if stone == 0:
+            result += count_stones_v2((1,), blinks-1)
+        elif len(str(stone)) % 2 == 0:
+            stone_str = str(stone)
+            l, r = int(stone_str[:len(stone_str) // 2]), int(stone_str[len(stone_str) // 2:])
+            result += count_stones_v2((l,), blinks-1)
+            result += count_stones_v2((r,), blinks-1)
+        else:
+            result += count_stones_v2((stone * 2024,), blinks-1)
+    return result
+
 
 def part_1(input_string):
-    pass
+    stones = list(map(int, input_string.split(' ')))
+    print(count_stones_v1(stones, 25))
 
 
 def part_2(input_string):
-    pass
+    stones = tuple(map(int, input_string.split(' ')))
+    print(count_stones_v2(stones, 75))
 
 
 def main():
