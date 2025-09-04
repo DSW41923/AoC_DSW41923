@@ -1,12 +1,34 @@
 import argparse
+import re
 
 
 def part_1(input_string):
-    pass
+    result = 0
+    for sign, change in re.findall(r"([+\-])(\d+)", input_string):
+        if sign == '-':
+            result -= int(change)
+        else:
+            result += int(change)
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    results = [0]
+    while True:
+        for sign, change in re.findall(r"([+\-])(\d+)", input_string):
+            new_result = results[-1]
+            if sign == '-':
+                new_result -= int(change)
+            else:
+                new_result += int(change)
+
+            if new_result in results:
+                print(new_result)
+                return
+            else:
+                results.append(new_result)
+        if len(results) > 2000:
+            results = results[:1000]+results[-500:]
 
 
 def main():
