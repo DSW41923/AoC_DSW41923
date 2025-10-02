@@ -1,12 +1,68 @@
 import argparse
 
 
+def traverse_rooms(regex, pos, steps, rooms):
+    fork_pos = []
+    for r in regex:
+        if r == '^':
+            continue
+        elif r == 'N':
+            pos += 1j
+            steps += 1
+            if pos not in rooms:
+                rooms.update({pos: steps})
+            else:
+                if steps < rooms[pos]:
+                    rooms.update({pos: steps})
+        elif r == 'E':
+            pos += 1
+            steps += 1
+            if pos not in rooms:
+                rooms.update({pos: steps})
+            else:
+                if steps < rooms[pos]:
+                    rooms.update({pos: steps})
+        elif r == 'W':
+            pos -= 1
+            steps += 1
+            if pos not in rooms:
+                rooms.update({pos: steps})
+            else:
+                if steps < rooms[pos]:
+                    rooms.update({pos: steps})
+        elif r == 'S':
+            pos -= 1j
+            steps += 1
+            if pos not in rooms:
+                rooms.update({pos: steps})
+            else:
+                if steps < rooms[pos]:
+                    rooms.update({pos: steps})
+        elif r == '(':
+            fork_pos.append((pos, steps))
+        elif r == '|':
+            pos, steps = fork_pos[-1]
+        elif r == ')':
+            fork_pos.pop()
+        elif r == '$':
+            break
+
+
 def part_1(input_string):
-    pass
+    rooms = {}
+    pos = 0+0j
+    rooms.update({pos: 0})
+    traverse_rooms(input_string, pos, 0, rooms)
+    print(max(rooms.values()))
 
 
 def part_2(input_string):
-    pass
+    rooms = {}
+    pos = 0+0j
+    rooms.update({pos: 0})
+    traverse_rooms(input_string, pos, 0, rooms)
+    print(len([v for v in rooms.values() if v >= 1000]))
+
 
 
 def main():
