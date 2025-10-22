@@ -2,11 +2,31 @@ import argparse
 
 
 def part_1(input_string):
-    pass
+    range_min, range_max = tuple(map(int, input_string.split('-')))
+    doubles = [str(a)*2 for a in range(10)]
+    result = 0
+    for num in range(range_min, range_max+1):
+        if any([d in str(num) for d in doubles]):
+            num_list = list(map(int, list(str(num))))
+            if any([num_list[i] > num_list[i+1] for i in range(5)]):
+                continue
+            result += 1
+    print(result)
 
 
 def part_2(input_string):
-    pass
+    range_min, range_max = tuple(map(int, input_string.split('-')))
+    results = set()
+    for num in range(range_min, range_max+1):
+        for d in range(10):
+            if str(d)*2 in str(num):
+                if str(d)*3 in str(num):
+                    continue
+                num_list = list(map(int, list(str(num))))
+                if any([num_list[i] > num_list[i+1] for i in range(5)]):
+                    continue
+                results.add(num)
+    print(len(results))
 
 
 def main():

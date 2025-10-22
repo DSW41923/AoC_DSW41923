@@ -1,12 +1,33 @@
 import argparse
+import re
+
+
+def traverse_wire(wire):
+    wire_points = []
+    directions = {'U': 1j, 'L': -1, 'R': 1, 'D': -1j}
+    cur = 0
+    for dir, dis in re.findall(r"([ULDR])(\d+)", wire):
+        dis = int(dis)
+        for _ in range(dis):
+            cur += directions[dir]
+            wire_points.append(cur)
+    return wire_points
 
 
 def part_1(input_string):
-    pass
+    wire_0, wire_1 = input_string.split('\n')
+    wire_0_points = set(traverse_wire(wire_0))
+    wire_1_points = set(traverse_wire(wire_1))
+    intersects = list(wire_0_points.intersection(wire_1_points))
+    print(min([int(abs(c.real)+abs(c.imag)) for c in intersects]))
 
 
 def part_2(input_string):
-    pass
+    wire_0, wire_1 = input_string.split('\n')
+    wire_0_points = traverse_wire(wire_0)
+    wire_1_points = traverse_wire(wire_1)
+    intersects = list(set(wire_0_points).intersection(set(wire_1_points)))
+    print(min([int(2+wire_0_points.index(c)+wire_1_points.index(c)) for c in intersects]))
 
 
 def main():
