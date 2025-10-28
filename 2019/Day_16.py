@@ -2,11 +2,37 @@ import argparse
 
 
 def part_1(input_string):
-    pass
+    num_list = list(map(int, list(input_string)))
+    num_list_len = len(num_list)
+    pattern = [0, 1, 0, -1]
+    for i in range(100):
+        new_list = [0 for _ in range(num_list_len)]
+        for j in range(num_list_len):
+            for k in range(num_list_len):
+                new_list[j] += (num_list[k] * pattern[((k+1)//(j+1))%4])
+            new_list[j] = abs(new_list[j]) % 10
+        num_list = new_list
+    print(''.join(map(str, num_list[:8])))
 
 
 def part_2(input_string):
-    pass
+    num_list = list(map(int, list(input_string)))
+    num_list_len = len(num_list)
+    offset = int(''.join(map(str, num_list[:7])))
+    # print(offset)
+    num_list = num_list*10000
+    full_num_list_len = num_list_len*10000
+    # print(full_num_list_len//2)
+    # print(offset > full_num_list_len//2)
+    full_num_list_len -= offset
+    num_list = num_list[-full_num_list_len:]
+    # pattern = [0, 1, 0, -1]
+    for i in range(100):
+        for j in range(2, full_num_list_len+1):
+            num_list[-j] += num_list[-j+1]
+            num_list[-j] = abs(num_list[-j]) % 10
+        # print(i, ''.join(map(str, num_list[:8])))
+    print(''.join(map(str, num_list[:8])))
 
 
 def main():
