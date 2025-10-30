@@ -1,0 +1,43 @@
+import argparse
+import re
+
+
+def part_1(input_string):
+    result = 0
+    for num in re.findall(r'(\d+)', input_string):
+        result += (int(num) // 3 - 2)
+    print(result)
+
+
+def part_2(input_string):
+    result = 0
+    for num_str in re.findall(r'(\d+)', input_string):
+        num = int(num_str)
+        num = (num // 3 - 2)
+        while num > 0:
+            result += num
+            num = (num // 3 - 2)
+    print(result)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--part",
+                        help="Specify puzzle 1 or puzzle 2 to be solved. Run both by default.",
+                        required=False)
+    args = parser.parse_args()
+    file_input = open('inputs/2019/Input_01.txt', 'r')
+    input_string = file_input.read()
+    file_input.close()
+
+    if args.part == '1':
+        part_1(input_string)
+    elif args.part == '2':
+        part_2(input_string)
+    else:
+        part_1(input_string)
+        part_2(input_string)
+
+
+if __name__ == "__main__":
+    main()
